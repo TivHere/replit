@@ -1,97 +1,121 @@
-# Professional Telegram Cafe Bot
+# Telegram Cafe Bot
 
-A beautiful, visual Telegram bot for cafe menu browsing with professional food photography and modern interface design.
+A beautiful and interactive Telegram bot for cafe businesses with welcome photos and text-based menu navigation.
 
 ## Features
 
-- 🖼️ **Professional Food Images**: High-quality photos from Unsplash for visual appeal
-- 🎨 **Modern Interface**: Premium styling with visual boxes and professional formatting
-- 📱 **Clean Navigation**: Intuitive button layouts without payment distractions
-- ☕ **Complete Menu**: Coffee, cold drinks, breakfast, lunch, desserts, and snacks
-- 🚀 **Railway Ready**: Configured for easy deployment on Railway platform
+- **Welcome Photo**: Shows beautiful cafe interior when users start
+- **Interactive Menu**: Browse categories with inline keyboards
+- **Text-Based Items**: Fast, clean menu item displays
+- **Order System**: Phone and email ordering options
+- **Contact Info**: Business details and social media links
+- **Responsive Design**: Works perfectly on mobile devices
 
-## Installation
+## Setup Instructions
 
-1. **Get Bot Token**:
-   - Create a bot via [@BotFather](https://t.me/botfather) on Telegram
-   - Copy your bot token
+### 1. Get a Telegram Bot Token
 
-2. **Set Environment Variables**:
-   ```bash
-   TELEGRAM_BOT_TOKEN=your_bot_token_here
-   PORT=8000
-   ```
+1. Open Telegram and search for `@BotFather`
+2. Start a chat with BotFather and send `/newbot`
+3. Follow the prompts to name your bot (e.g., "My Cafe Bot")
+4. Choose a username ending in "bot" (e.g., "mycafebot")
+5. Copy the bot token provided by BotFather
 
-3. **Install Dependencies**:
-   ```bash
-   pip install python-telegram-bot==20.7
-   ```
+### 2. Install Dependencies
 
-4. **Run the Bot**:
-   ```bash
-   python main.py
-   ```
+```bash
+pip install python-telegram-bot==20.7
+```
+
+### 3. Set Environment Variable
+
+Set your bot token as an environment variable:
+
+**Linux/Mac:**
+```bash
+export TELEGRAM_BOT_TOKEN="your_bot_token_here"
+```
+
+**Windows:**
+```cmd
+set TELEGRAM_BOT_TOKEN=your_bot_token_here
+```
+
+### 4. Customize Your Cafe
+
+Edit `config.py` to update:
+- Cafe name and description
+- Contact information (phone, email, address)
+- Opening hours
+- Social media links
+
+Edit `menu_data.json` to update:
+- Menu categories and items
+- Prices and descriptions
+- Cafe photos for welcome screen
+
+### 5. Run the Bot
+
+```bash
+python main.py
+```
+
+## Bot Commands
+
+- `/start` - Welcome message with cafe photo and main menu
+- `/menu` - Browse menu categories
+- `/contact` - Get contact information
+- `/location` - Address and opening hours
+- `/help` - Usage instructions
 
 ## File Structure
 
-```
-telegram-cafe-bot/
-├── main.py           # Bot entry point and setup
-├── handlers.py       # Command and button handlers
-├── keyboards.py      # Button layout definitions
-├── menu_data.py      # Menu items with images
-├── Procfile          # Railway deployment config
-├── .env.example      # Environment variables template
-└── README.md         # This file
-```
-
-## Deployment on Railway
-
-1. Upload these files to your Railway project
-2. Set `TELEGRAM_BOT_TOKEN` in Railway environment variables
-3. Railway will automatically use the Procfile to start the bot
+- `main.py` - Bot entry point and initialization
+- `config.py` - Configuration settings and messages
+- `handlers.py` - Message and callback handlers
+- `utils.py` - Utility functions for keyboards and menus
+- `menu_data.json` - Menu items and cafe images
+- `pyproject.toml` - Python dependencies
 
 ## Customization
 
 ### Adding Menu Items
-Edit `menu_data.py` to add new items:
-```python
+
+Edit `menu_data.json` to add new categories or items:
+
+```json
 {
-    "id": "new_item",
-    "name": "New Item Name",
-    "price": 5.95,
-    "description": "Item description",
-    "allergens": "Any allergens",
-    "image": "https://your-image-url.com/image.jpg"
+  "id": "new_item",
+  "name": "New Menu Item",
+  "description": "Delicious new addition to our menu",
+  "price": "$5.99",
+  "category": "category_name"
 }
 ```
 
-### Changing Bot Messages
-Edit the welcome messages and text in `handlers.py` to match your cafe's branding.
+### Changing Cafe Information
 
-### Adding New Categories
-1. Add category to `MENU_CATEGORIES` in `menu_data.py`
-2. Add items under the new category in `CAFE_MENU`
+Update `config.py` with your cafe's details:
 
-## Bot Commands
+```python
+CAFE_NAME = "Your Cafe Name"
+CAFE_PHONE = "+1 (555) 123-4567"
+CAFE_EMAIL = "hello@yourcafe.com"
+```
 
-- `/start` - Show main menu
-- `/help` - Display help information
-- `/terms` - View terms and conditions
-- `/support` - Get customer support info
+### Welcome Photos
 
-## Technical Details
-
-- **Framework**: python-telegram-bot v20.7
-- **Architecture**: Handler-based event system
-- **Images**: Professional food photography from Unsplash
-- **Navigation**: Callback-based button interactions
-- **Deployment**: Worker process on Railway platform
+Add cafe interior photos to `menu_data.json` in the `cafe_images` array. The bot will randomly select one for the welcome message.
 
 ## Support
 
-For technical support or customization requests, contact your development team.
+This bot is designed to be simple and reliable. If you need help:
 
----
+1. Check that your bot token is correctly set
+2. Ensure all dependencies are installed
+3. Verify your menu data JSON is valid
+4. Check the console logs for error messages
 
-Built with ❤️ for professional cafe presentation
+## License
+
+Free to use and modify for your cafe business.

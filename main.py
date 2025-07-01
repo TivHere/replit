@@ -1,8 +1,23 @@
-import os
+#!/usr/bin/env python3
+"""
+Enhanced Telegram Cafe Bot with Visual Menu Displays
+Main application entry point
+"""
+
+import asyncio
 import logging
-from telegram import Update
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
-from handlers import start_handler, button_handler, help_handler, terms_handler, support_handler, error_handler
+import os
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
+
+from handlers import (
+    start_command,
+    menu_command,
+    handle_callback_query,
+    help_command,
+    contact_command,
+    location_command
+)
+from config import BOT_TOKEN
 
 # Configure logging
 logging.basicConfig(
@@ -12,34 +27,29 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def main():
-    """Start the bot."""
-    # Get bot token from environment variable
-    bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
-    
-    if not bot_token:
-        logger.error("TELEGRAM_BOT_TOKEN environment variable is not set!")
-        return
-    
-    # Create the Application
-    application = Application.builder().token(bot_token).build()
-    
-    # Register handlers
-    application.add_handler(CommandHandler("start", start_handler))
-    application.add_handler(CommandHandler("help", help_handler))
-    application.add_handler(CommandHandler("terms", terms_handler))
-    application.add_handler(CommandHandler("support", support_handler))
-    application.add_handler(CallbackQueryHandler(button_handler))
-    
-    # Register error handler
-    application.add_error_handler(error_handler)
-    
-    # Get port from environment variable (Railway sets this automatically)
-    port = int(os.getenv('PORT', 8000))
-    
-    logger.info(f"Starting bot on port {port}")
-    
-    # Start the bot
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    """Main function to run the bot"""
+    try:
+        # Create application
+        application = ApplicationBuilder().token(BOT_TOKEN).build()
+        
+        # Add command handlers
+        application.add_handler(CommandHandler("start", start_command))
+        application.add_handler(CommandHandler("menu", menu_command))
+        application.add_handler(CommandHandler("help", help_command))
+        application.add_handler(CommandHandler("contact", contact_command))
+        application.add_handler(CommandHandler("location", location_command))
+        
+        # Add callback query handler for inline keyboards
+        application.add_handler(CallbackQueryHandler(handle_callback_query))
+        
+        logger.info("Starting Enhanced Cafe Bot...")
+        
+        # Start the bot with polling
+        application.run_polling()
+        
+    except Exception as e:
+        logger.error(f"Error starting bot: {e}")
+        raise
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
